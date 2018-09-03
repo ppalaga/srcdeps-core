@@ -206,6 +206,7 @@ public class JGitScm implements Scm {
                 }
                 i++;
             }
+            git.getRepository().close();
         }
         throw new ScmException(
                 String.format("Could not checkout [%s] from URLs %s", request.getSrcVersion(), request.getScmUrls()));
