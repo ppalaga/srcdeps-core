@@ -206,7 +206,6 @@ public class JGitScm implements Scm {
                 }
                 i++;
             }
-            git.getRepository().close();
         }
         throw new ScmException(
                 String.format("Could not checkout [%s] from URLs %s", request.getSrcVersion(), request.getScmUrls()));
@@ -286,9 +285,7 @@ public class JGitScm implements Scm {
 
             git.reset().setMode(ResetType.HARD).setRef(startPoint).call();
             final Ref ref = git.getRepository().exactRef("HEAD");
-            final String result = ref.getObjectId().getName();
-            git.getRepository().close();
-            return result;
+            return ref.getObjectId().getName();
         } catch (ScmException e) {
             final String msg = String.format("srcdeps: Could not checkout [%s] from SCM URL %d/%d [%s]", srcVersion,
                     urlIndex + 1, urlCount, useUrl);
